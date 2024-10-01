@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       hp: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isInt: {msg: "La valeur doit être un nombre entier positif"},
+          notNull: {msg: "La valeur ne peut pas être nulle"},
+          min: {args: [1], msg: "La valeur doit être un nombre entier positif"}
+        }
       },
       cp: {
         type: DataTypes.INTEGER,
