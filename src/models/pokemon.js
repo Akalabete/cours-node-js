@@ -1,4 +1,4 @@
-
+const validTypes = ['Plante', 'Feu', 'Eau', 'Insecte', 'Normal', 'Electrik', 'Poison', 'Fée', 'Vol', 'Combat', 'Psy'];
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Pokemon', {
       id: {
@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isInt: {msg: "La valeur doit être un nombre entier positif"},
           notNull: {msg: "La valeur ne peut pas être nulle"},
-          min: {args: [1], msg: "La valeur doit être un nombre entier positif"}
+          min: {args: [1], msg: "La valeur doit être un nombre entier positif"},
+          max: {args: [999], msg: "La valeur doit être un nombre entier positif inférieur à 1000"}
         }
       },
       cp: {
@@ -33,7 +34,8 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isInt: {msg: "La valeur doit être un nombre entier positif"},
           notNull: {msg: "La valeur ne peut pas être nulle"},
-          min: {args: [1], msg: "La valeur doit être un nombre entier positif"}
+          min: {args: [1], msg: "La valeur doit être un nombre entier positif"},
+          max: {args: [99], msg: "La valeur doit être un nombre entier positif inférieur à 100"}
         }
       },
       picture: {
@@ -50,6 +52,22 @@ module.exports = (sequelize, DataTypes) => {
         },
         set(types) {
             this.setDataValue('types', types.join());
+        },
+        validate: {
+          isTypesValid(value) {
+            if(!value) {
+              throw new Error('Le pokémon doit avoir au moins un type')
+            }
+            if(value.split(',').lengnth > 3) {
+              throw new Error('Le pokémon ne peut pas avoir plus de 3 types')
+            }
+            value.split(',').forEach(type => {
+              if(!validTypes.includes(type)) {
+                throw new Error(`Le type ${type} n'est pas valide, les types autorisés sont ${validTypes.join(', ')}`)
+              }
+            })
+          }
+
         }
       }
     }, {
