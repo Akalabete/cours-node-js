@@ -8,7 +8,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          is: {
+            args: ["^[a-zA-ZÀ-ÿ\\s]+$", 'i'],
+            msg: "Le nom ne peut contenir que des lettres et des espaces"
+          },
+          notNull: {msg: "Le nom ne peut pas être nul"},
+          notEmpty: {msg: "Le nom ne peut pas être vide"}
+        }
       },
       hp: {
         type: DataTypes.INTEGER,
@@ -21,11 +29,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       cp: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isInt: {msg: "La valeur doit être un nombre entier positif"},
+          notNull: {msg: "La valeur ne peut pas être nulle"},
+          min: {args: [1], msg: "La valeur doit être un nombre entier positif"}
+        }
       },
       picture: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        isUrl: {msg: "La valeur doit être une URL"},
+        notNull: {msg: "La valeur ne peut pas être nulle"}
       },
       types: {
         type: DataTypes.STRING,
