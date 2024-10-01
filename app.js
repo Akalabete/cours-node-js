@@ -3,7 +3,7 @@ const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
-const sequelize = require('./src/db/sequelize.js');
+const sequelize = require('./src/db/sequelize');
 const port = 3000;
 
 app
@@ -14,7 +14,10 @@ app
 sequelize.initDb();
 
 /* futurs endpoints below */
-
-
+require('./src/routes/findAllPokemons.js')(app);
+require('./src/routes/findPokemonByPk.js')(app);
+require('./src/routes/addNewPokemon.js')(app);
+require('./src/routes/updatePokemon.js')(app);
+require('./src/routes/deletePokemon.js')(app);
 
 app.listen(port, () => console.log(`Example app listening on http://localhost:${port}!`));
