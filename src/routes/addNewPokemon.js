@@ -1,5 +1,6 @@
 const { Pokemon } = require('../db/sequelize')
-  
+const { ValidationError } = require('sequelize')
+
 module.exports = (app) => {
   app.post('/api/pokemons', (req, res) => {
     Pokemon.create(req.body)
