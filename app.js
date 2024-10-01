@@ -20,4 +20,11 @@ require('./src/routes/addNewPokemon.js')(app);
 require('./src/routes/updatePokemon.js')(app);
 require('./src/routes/deletePokemon.js')(app);
 
+// gestion des erreurs
+    // 404 
+app.use(({res}) => {
+    const message = `impossible de trouver le pokémon demandé :(`
+    res.status(404).json({ message });
+})
+
 app.listen(port, () => console.log(`Example app listening on http://localhost:${port}!`));
