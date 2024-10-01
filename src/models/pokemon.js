@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: {msg: "Le nom du pokémon est déjà pris"},
         validate: {
           is: {
             args: ["^[a-zA-ZÀ-ÿ\\s]+$", 'i'],
