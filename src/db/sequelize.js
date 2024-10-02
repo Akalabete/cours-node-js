@@ -2,7 +2,9 @@ const { Sequelize, DataTypes } = require('sequelize')
 const PokemonModel = require('../models/pokemon')
 const UserModel = require('../models/users')
 const pokemons = require('./mock-pokemons')
-  
+const bcrypt = require('bcrypt')
+
+
 const sequelize = new Sequelize('pokedex', 'root', '', {
   host: 'localhost',
   dialect: 'mariadb',
@@ -26,10 +28,8 @@ const initDb = () => {
         types: pokemon.types
       }).then()
     })
-    User.create({
-      username: 'admin',
-      password: 'admin'
-    }).then()
+    bcrypt.hash('admin', 10)
+    .then(hash =>  User.create({username: 'admin', password: hash}))
     console.log('La base de donnée a bien été initialisée !')
   })
 }
