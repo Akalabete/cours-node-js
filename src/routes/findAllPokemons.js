@@ -6,20 +6,21 @@ module.exports = (app) => {
   app.get('/api/pokemons', (req, res) => {
     if(req.query.name) {
       const name = req.query.name;
-      return Pokemon.findAll({
+      return Pokemon.findAndCountAll({
         where: {
           name:{ // propriété de l'objet recherché
             [Op.like]: `%${name}%` // opérateur de comparaison
             }
           },
+          order : [['name']], // ordre de tri
           limit: 5
       })
-      .then(pokemons => {
-        const message = `Il y à ${pokemons.length} pokémons qui correspondent à votre recherche.`
-        res.json({ message, data: pokemons })
+      .then(({count, rows}) => {
+        const message = `Il y à ${count} pokémons qui correspondent à votre recherche.`
+        res.json({ message, data: rows })
       });
     } else {
-      Pokemon.findAll()
+      Pokemon.findAll(({order: [['name']]}))
       .then(pokemons => {
         const message = 'La liste des pokémons a bien été récupérée.'
         res.json({ message, data: pokemons })
