@@ -19,6 +19,7 @@ require('./src/routes/findPokemonByPk.js')(app);
 require('./src/routes/addNewPokemon.js')(app);
 require('./src/routes/updatePokemon.js')(app);
 require('./src/routes/deletePokemon.js')(app);
+require('./src/routes/login.js')(app);
 
 // gestion des erreurs
     // 404 
