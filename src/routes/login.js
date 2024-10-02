@@ -11,8 +11,7 @@ module.exports = (app) => {
             bcrypt.compare(req.body.password, user.password).then(isPasswordValid => {
                 if(isPasswordValid) {
                     const message = 'Le mot de passe est invalide.'
-                    return res.status(401).json({ message })
-                    
+                    return res.status(401).json({ message })  
                 }
                 const message = 'Vous êtes connecté.'
                 return res.json({ message, data: user })
