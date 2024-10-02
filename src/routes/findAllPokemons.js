@@ -1,18 +1,21 @@
 const { Pokemon } = require('../db/sequelize')
-  
+const { Op } = require('sequelize')
+
+
 module.exports = (app) => {
   app.get('/api/pokemons', (req, res) => {
     if(req.query.name) {
       const name = req.query.name;
       return Pokemon.findAll({
-        where: { name: name }
+        where: {
+          name:{ // propriété de l'objet recherché
+            [Op.like]: `%${name}%` // opérateur de comparaison
+            }
+          },
+          limit: 5
       })
       .then(pokemons => {
-        const message = pokemons.length > 1 ? 
-          message = `Il y a ${pokemons.length} pokémons avec le nom ${name}.`
-         : 
-          message = `Il y a ${pokemons.length} pokémon avec le nom ${name}.`;
-        
+        const message = `Il y à ${pokemons.length} pokémons qui correspondent à votre recherche.`
         res.json({ message, data: pokemons })
       });
     } else {
